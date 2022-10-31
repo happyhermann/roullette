@@ -108,6 +108,7 @@ export default {
       const anim = setInterval (() => {
       console.log("셋 인터벌 작동")
       num++;
+      
       items.style.transform = "rotate("+ 360 * num +"deg)";
       // for 대신 setInterval로 unmounted될 때까지 깔끔하게 
       pin.classList.add("shake")
