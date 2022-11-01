@@ -2,6 +2,7 @@
 
 <template class="template">
   <v-container justify-center fluid class="event-container">
+    <!-- 헤더 -->
     <v-row class="header" justify-space-between align-center fluid>
       <v-col>
         <div class="arrow-box">
@@ -15,25 +16,30 @@
       </v-col>
       <v-col></v-col>
     </v-row>
-    <!-- Row2 Col1,2-->
-    <v-row justify="center" class="event-main">
-      <v-col cols="12">
-        <div class="event-slogan">
-          <div class="slogan-top">
-            <span>12/1 ~ 12/31</span>
-            <span>수거하는 날?</span>
-          </div>
-          <p class="slogan-day">룰렛 돌리는 날!</p>
-          <p class="slogan-token">수거 완료하고 받은 토큰으로 경품 받자~</p>
+
+    <!-- 메인 -->
+
+    <section class="text-section">
+      <!-- 이벤트 문구 -->
+      <div class="event-slogan">
+        <div class="slogan-top">
+          <span>12/1 ~ 12/31</span>
+          <span>수거하는 날?</span>
         </div>
-      </v-col>
-      <v-col cols="12" class="roulette-box">
+        <p class="slogan-day">룰렛 돌리는 날!</p>
+        <p class="slogan-token">수거 완료하고 받은 토큰으로 경품 받자~</p>
+        <!-- </div> -->
+      </div>
+    </section>
+    <!-- 룰렛 -->
+    <section class="roul-section">
+      <div class="roulette-box">
         <v-img
           min-width="350"
           max-width="550"
           width="450"
           max-height="auto"
-          class="test"
+          class="bottom"
           src="@/assets/1.png"
         />
         <!-- 룰렛 돌림판 이미지 -->
@@ -56,22 +62,8 @@
           src="@/assets/4.png"
           @click="onStart"
         />
-      </v-col>
-    </v-row>
-
-    <!-- 룰렛 UI -->
-
-    <!-- 룰렛 이미지 영역 -->
-    <div class="token-box">
-      <div class="bonus-token">
-        <span>2</span>
-        <span>보너스 토큰</span>
       </div>
-      <div class="left-token">
-        <span>잔여 토큰</span>
-        <span>13</span>
-      </div>
-    </div>
+    </section>
   </v-container>
 </template>
 
@@ -88,6 +80,9 @@ export default {
 
     result: 0,
     // 멈춘 각도 결과
+
+    widthRatio: 0,
+    // 사용자 모바일 뷰포트 값
   }),
   methods: {
     randomNum: function () {
@@ -190,6 +185,16 @@ export default {
 
     // 시작 이벤트
   },
+  created() {
+    console.log(`created`);
+
+    this.widthRatio = document.documentElement.clientWidth / 320;
+
+    console.log(`당신의 뷰포트 사이즈 ${document.documentElement.clientWidth}`);
+    console.log(`아이폰4 뷰포트 기준 비율 계산 ${this.widthRatio}`);
+
+    // data에 마운트 전에 (dom 생성 이전에) 사용자의 Width 넓이 할당
+  },
 };
 </script>
 
@@ -211,6 +216,7 @@ export default {
   align-items: center;
   justify-content: space-between; */
   margin-bottom: 22px;
+  padding: 10px 10px;
 
   i {
     width: 30px;
@@ -318,7 +324,16 @@ export default {
 
 .event-main {
   height: 100vh;
+  flex-basis: auto;
 }
+
+.slogan-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+// 슬로건 Col
 
 .roulette-box {
   width: 100%;
@@ -329,14 +344,13 @@ export default {
   position: relative;
 }
 .bottom {
-  z-index: -1;
+  z-index: 1;
 }
 
 .items {
   z-index: 10;
   width: 100%;
-  position: absolute;
-  top: 6.5%;
+
   transform-origin: 50% 51%;
   transform: rotate(-23deg);
   transition-timing-function: cubic-bezier(0.8, 0.09, 0.42, 0.76);
@@ -356,8 +370,6 @@ export default {
 .start-button {
   width: 61px;
   z-index: 2000;
-  position: absolute;
-  top: 28.5%;
 }
 
 /* 핀 애니메이션 */
