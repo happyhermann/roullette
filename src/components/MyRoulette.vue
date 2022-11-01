@@ -1,51 +1,67 @@
-/* eslint-disable */ 
+/* eslint-disable */
 
-<template>
-  <v-container class="event-container">
-    <header class="event-header">
-      <div class="arrow-box">
-        <i class="mdi mdi-chevron-left"></i>
-      </div>
-
-      <div>
-        <h3 class="event-title">이벤트</h3>
-      </div>
-      <div></div>
-    </header>
-    <!-- 룰렛 이미지 영역 -->
-    <div class="event-slogan">
-      <div class="slogan-top">
-        <span>12/1 ~ 12/31</span>
-        <span>수거하는 날?</span>
-      </div>
-      <p class="slogan-day">룰렛 돌리는 날!</p>
-      <p class="slogan-token">수거 완료하고 받은 토큰으로 경품 받자~</p>
-    </div>
-    <main class="roulette-box">
-      <v-img class="bottom " src="@/assets/1.png">
-        <!-- 룰렛 bg -->
-      <!-- <div class="items "></div> -->
-
+<template class="template">
+  <v-container justify-center fluid class="event-container">
+    <v-row class="header" justify-space-between align-center fluid>
+      <v-col>
+        <div class="arrow-box">
+          <i class="mdi mdi-chevron-left"></i>
+        </div>
+      </v-col>
+      <v-col style="text-align: center">
+        <div>
+          <h3 class="event-title">이벤트</h3>
+        </div>
+      </v-col>
+      <v-col></v-col>
+    </v-row>
+    <!-- Row2 Col1,2-->
+    <v-row justify="center" class="event-main">
+      <v-col cols="12">
+        <div class="event-slogan">
+          <div class="slogan-top">
+            <span>12/1 ~ 12/31</span>
+            <span>수거하는 날?</span>
+          </div>
+          <p class="slogan-day">룰렛 돌리는 날!</p>
+          <p class="slogan-token">수거 완료하고 받은 토큰으로 경품 받자~</p>
+        </div>
+      </v-col>
+      <v-col cols="12" class="roulette-box">
+        <v-img
+          min-width="350"
+          max-width="550"
+          width="450"
+          max-height="auto"
+          class="test"
+          src="@/assets/1.png"
+        />
         <!-- 룰렛 돌림판 이미지 -->
-        <v-img class="items " src="@/assets/3.png"/>
-
-       
-      </v-img>
-
-         <v-img class="pin " src="@/assets/6.png" />
-
-         <!-- 룰렛 핀 -->
-      <v-img
+        <v-img
+          min-width="350"
+          max-width="550"
+          width="450"
+          max-height="auto"
+          class="items"
+          src="@/assets/3.png"
+        />
+        <v-img class="pin" src="@/assets/6.png" />
+        <!-- 룰렛 핀 -->
+        <v-img
+          min-width="45"
+          max-width="150"
+          width="77"
+          max-height="auto"
           class="start-button"
           src="@/assets/4.png"
           @click="onStart"
         />
-  
+      </v-col>
+    </v-row>
 
-      <!-- 룰렛 이미지 영역 -->
-    </main>
-    <!-- 토큰 UI -->
+    <!-- 룰렛 UI -->
 
+    <!-- 룰렛 이미지 영역 -->
     <div class="token-box">
       <div class="bonus-token">
         <span>2</span>
@@ -65,127 +81,116 @@ export default {
 
   data: () => ({
     random: 0,
-        // initial random value = 0
+    // global 랜덤 변수
 
-    overallRol : 8,
-    // 아이탬 개수
- 
-    result : 0,
-    // 걸린 각도
+    overallRol: 8,
+    // 사은품 개수
+
+    result: 0,
+    // 멈춘 각도 결과
   }),
   methods: {
     randomNum: function () {
       let min = Math.ceil(0);
       let max = Math.floor(this.overallRol - 1);
-       return Math.floor(Math.random() * (max - min) + min);
+      return Math.floor(Math.random() * (max - min) + min);
     },
+    //
 
- 
     onStart: function () {
-      alert("룰렛 시작?")
+      alert("룰렛 시작?");
       this.onRotate();
-
-    
-
     },
     matchItems: function (result) {
- 
+      // 추후 당첨 팝업 띄우기
+      // 재활용 가능하게 고려해야함
       switch (result) {
-        case 45 : alert("10만원 당첨되셨습니다!");
-        break;
-        case 90 : alert("꽝입니다! 축하드립니다 ㅋㅋ");
-        break;
-        case 135 : alert("박카스 한 병 시원하게");
-        break;
-        case 180 : alert("5천원 당첨!");
-        break;
-        case 225 : alert("5만원 당첨!");
-        break;
-        case 270 : alert("꽝입니다! ㅊㅋ");
-        break;
-        case 315 : alert("3만원 당첨!");
-        break;
-        case 360 : alert("1만원 당첨!");
+        case 45:
+          alert("10만원 당첨되셨습니다!");
+          break;
+        case 90:
+          alert("꽝입니다! 축하드립니다 ㅋㅋ");
+          break;
+        case 135:
+          alert("박카스 한 병 시원하게");
+          break;
+        case 180:
+          alert("5천원 당첨!");
+          break;
+        case 225:
+          alert("5만원 당첨!");
+          break;
+        case 270:
+          alert("꽝입니다! ㅊㅋ");
+          break;
+        case 315:
+          alert("3만원 당첨!");
+          break;
+        case 360:
+          alert("1만원 당첨!");
 
         // switch도 재활용 가능하게 리팩토링 하기
-
-
       }
-
     },
     onRotate: function () {
-      const btn = document.querySelector('.start-button') // eslint-disable-line no-unused-vars
-      const pin = document.querySelector('.pin')  // eslint-disable-line no-unused-vars
- 
-      const items = document.querySelector('.items') // eslint-disable-line no-unused-vars
+      const btn = document.querySelector(".start-button"); // eslint-disable-line no-unused-vars
+      const pin = document.querySelector(".pin"); // eslint-disable-line no-unused-vars
+
+      const items = document.querySelector(".items"); // eslint-disable-line no-unused-vars
 
       let deg = [];
-      for(let i = 1, len = this.overallRol; i <= len; i++ ) {
-         deg.push((360/len) * i)
+      for (let i = 1, len = this.overallRol; i <= len; i++) {
+        deg.push((360 / len) * i);
       }
-      // 재사용 가능하게 len으로 전체 상품 개수가 들어오면 
+      // 재사용 가능하게 len으로 전체 상품 개수가 들어오면
       // 자동으로 배열에 최소값부터 최대값까지 넣어줌
 
       let num = 0;
       // 회전 회수 초기 state
 
-      const anim = setInterval (() => {
-      console.log("셋 인터벌 작동")
-      num++;
+      const anim = setInterval(() => {
+        console.log("셋 인터벌 작동");
+        num++;
+        // 반복될 때 마다 회전 회수 더해줌
 
-      items.style.transform = "rotate("+ 360 * num +"deg)";
-      // for 대신 setInterval로 unmounted될 때까지 깔끔하게 
-      pin.classList.add("shake")
-      // 핀 애니메이션 
-      btn.disabled = true;
+        items.style.transform = "rotate(" + 360 * num + "deg)";
+        // anim대신 직접 rotate css로 작동
+        pin.classList.add("shake");
+        // 핀 흔들리는 애니메이션도 함께
+        btn.disabled = true;
+        // 판 돌아갈 동안 버튼 조작 불가능
 
-   
- 
-      // pin.classList.add('shake')
+        // pin.classList.add('shake')
 
-  
-      if (num == 40) {
-        console.log("40회 끝")
-        clearInterval(anim);
-        pin.classList.remove("shake")
-        // 핀 애니메이션 remove
+        if (num == 40) {
+          console.log("40회 끝");
+          clearInterval(anim);
+          pin.classList.remove("shake");
+          // 핀 애니메이션 remove
 
-        items.style.transform = "rotate(" + deg[this.randomNum()  ] + "deg)";
+          items.style.transform = "rotate(" + deg[this.randomNum()] + "deg)";
 
-        this.result =  deg[this.randomNum()];
-        // 룰렛 결과 data state 변경
-        // 리액트랑 다르게 setState로 변경할 필요 없이 바로 할당하면 값 변경
+          this.result = deg[this.randomNum()];
+          // 룰렛 결과 data state 변경
+          // 리액트랑 다르게 setState로 변경할 필요 없이 바로 할당하면 값 변경
 
-        console.log(`걸린 것 ${this.result}`)
+          console.log(`걸린 것 ${this.result}`);
 
-        this.matchItems(this.result);
+          this.matchItems(this.result);
 
+          // const setTimeout () => {
 
-        // const setTimeout () => { 
+          // // 룰렛 멈추고 함수 실행하게 하기
+          // // 룰렛 멈추는 시간 setTimeOut으로 맞춰놓기
 
-        // // 룰렛 멈추고 함수 실행하게 하기
-        // // 룰렛 멈추는 시간 setTimeOut으로 맞춰놓기 
+          // }
+        }
+      }, 50);
+    },
 
-
-        // } 
-
-
-        
-        
-  
-      }
-
-      }, 50); 
-
-    }
-  
     // 시작 이벤트
-
-   },
+  },
 };
-
-
-
 </script>
 
 <!-- 설계 시작전 세팅 
@@ -194,10 +199,18 @@ export default {
 -->
 
 <style lang="scss">
-.event-header {
-  display: flex;
+.template {
+  width: 100%;
+  height: 100vw;
+}
+
+// 이벤트 헤더
+
+.header {
+  /* display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; */
+  margin-bottom: 22px;
 
   i {
     width: 30px;
@@ -209,7 +222,8 @@ export default {
   }
 }
 .event-container {
-  height: 100vw;
+  width: 100%;
+  height: 100vh;
   background-color: $background;
 }
 
@@ -220,6 +234,7 @@ export default {
   }
 }
 
+// 이벤트 문구 3개
 .event-slogan {
   text-align: center;
 
@@ -241,13 +256,12 @@ export default {
       font-size: 17px;
       font-weight: 800;
     }
- 
   }
 }
 .slogan-day {
-  font-size: 30px;
-  font-weight: 800;
-  margin-bottom: 4px;
+  font-size: 25px;
+  font-weight: 700;
+  margin-bottom: 10px;
 }
 .slogan-token {
   font-size: 15px;
@@ -300,84 +314,69 @@ export default {
   }
 }
 
-/* 룰렛 CSS */
+/* 메인 룰렛 CSS */
+
+.event-main {
+  height: 100vh;
+}
 
 .roulette-box {
-  widows: 100%;
-  height: 70vw;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   position: relative;
 }
 .bottom {
-  position: relative;
+  z-index: -1;
 }
 
 .items {
-  z-index: -55;
+  z-index: 10;
   width: 100%;
-  height: 100%;
-  /* background: transparent
-    url("@/assets/3.png")
-    no-repeat; */
-  background-size: 100%;
+  position: absolute;
+  top: 6.5%;
   transform-origin: 50% 51%;
   transform: rotate(-23deg);
-  transition-timing-function: cubic-bezier(.8,.09,.42,.76);
+  transition-timing-function: cubic-bezier(0.8, 0.09, 0.42, 0.76);
   transition: 2s;
-  z-index: 9999;
-  
-  }
-
-.pin {
-  width: 20px;
-  position: fixed;
-  top: 18%;
-  left: 48%;
-   transform-origin: 50% 50%;
-  transition-timing-function: cubic-bezier(.8,.09,.42,.76);
-  transition: 0.2s;
-  z-index: 9999;
 }
 
-.button {
-   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
- 
+.pin {
+  z-index: 13;
+
+  width: 20px;
+  transform-origin: 50% 50%;
+  transition-timing-function: cubic-bezier(0.8, 0.09, 0.42, 0.76);
+  transition: 0.2s;
+  z-index: 6000;
 }
 
 .start-button {
-    width: 61px;
-     position: absolute;
-    left: 50%;
-    top: 37.5%;
-    transform: translate(-50%, -50%);
-
+  width: 61px;
+  z-index: 2000;
+  position: absolute;
+  top: 28.5%;
 }
 
+/* 핀 애니메이션 */
 
-/* rotating anim */
-
- 
- 
- 
-
-  .shake {
-    animation-name: ani3;
-    animation-duration: 0.1s;
-    animation-timing-function: ease-in-out;
-    animation-fill-mode: forwards;  
-    animation-iteration-count: infinite;
-
+.shake {
+  animation-name: ani3;
+  animation-duration: 0.1s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+}
+@keyframes ani3 {
+  0% {
+    transform: rotate(0deg);
   }
-  @keyframes ani3{
-      0%{
+  100% {
+    transform: rotate(-8deg);
+  }
+}
 
-           transform: rotate(0deg);
-         }
-        100%{
-          transform: rotate(-8deg);
-        }
-    }
-
+// test
 </style>

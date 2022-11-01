@@ -1,9 +1,5 @@
-<template>
-  <v-app>
-    <v-main>
-      <MyRoulette />
-    </v-main>
-  </v-app>
+<template class="appVue">
+  <MyRoulette />
 </template>
 
 <script>
@@ -21,3 +17,5 @@ export default {
   }),
 };
 </script>
+
+<style lang="scss"></style>
