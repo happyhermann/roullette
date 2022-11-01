@@ -70,9 +70,8 @@ export default {
     overallRol : 8,
     // 아이탬 개수
  
-    
-
-    // 각도
+    result : 0,
+    // 걸린 각도
   }),
   methods: {
     randomNum: function () {
@@ -87,6 +86,31 @@ export default {
       this.onRotate();
 
     
+
+    },
+    matchItems: function (result) {
+ 
+      switch (result) {
+        case 45 : alert("10만원 당첨되셨습니다!");
+        break;
+        case 90 : alert("꽝입니다! 축하드립니다 ㅋㅋ");
+        break;
+        case 135 : alert("박카스 한 병 시원하게");
+        break;
+        case 180 : alert("5천원 당첨!");
+        break;
+        case 225 : alert("5만원 당첨!");
+        break;
+        case 270 : alert("꽝입니다! ㅊㅋ");
+        break;
+        case 315 : alert("3만원 당첨!");
+        break;
+        case 360 : alert("1만원 당첨!");
+
+        // switch도 재활용 가능하게 리팩토링 하기
+
+
+      }
 
     },
     onRotate: function () {
@@ -108,7 +132,7 @@ export default {
       const anim = setInterval (() => {
       console.log("셋 인터벌 작동")
       num++;
-      
+
       items.style.transform = "rotate("+ 360 * num +"deg)";
       // for 대신 setInterval로 unmounted될 때까지 깔끔하게 
       pin.classList.add("shake")
@@ -128,10 +152,27 @@ export default {
 
         items.style.transform = "rotate(" + deg[this.randomNum()  ] + "deg)";
 
-        console.log(`완전히 종료 ${deg[this.randomNum()]}에서 멈춤`)
- 
-        // 랜덤 숫자 = 각도로 멈춤 ex) 1 == 45deg
- 
+        this.result =  deg[this.randomNum()];
+        // 룰렛 결과 data state 변경
+        // 리액트랑 다르게 setState로 변경할 필요 없이 바로 할당하면 값 변경
+
+        console.log(`걸린 것 ${this.result}`)
+
+        this.matchItems(this.result);
+
+
+        // const setTimeout () => { 
+
+        // // 룰렛 멈추고 함수 실행하게 하기
+        // // 룰렛 멈추는 시간 setTimeOut으로 맞춰놓기 
+
+
+        // } 
+
+
+        
+        
+  
       }
 
       }, 50); 
@@ -142,6 +183,9 @@ export default {
 
    },
 };
+
+
+
 </script>
 
 <!-- 설계 시작전 세팅 

@@ -1,16 +1,16 @@
 <template>
   <v-app>
     <v-main>
-      <MyRoulette/>
+      <MyRoulette />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import MyRoulette from './components/MyRoulette.vue'
+import MyRoulette from "./components/MyRoulette.vue";
 
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
     MyRoulette,
@@ -19,5 +19,5 @@ export default {
   data: () => ({
     //
   }),
-}
+};
 </script>
