@@ -40,7 +40,7 @@
         methods가 렌더링을 할때마다 항상 함수를 실행한다면..
       -->
         <v-img
-          min-width="350"
+          min-width="480"
           max-width="550"
           width="520"
           max-height="auto"
@@ -49,7 +49,7 @@
         />
         <!-- 룰렛 돌림판 이미지 -->
         <v-img
-          min-width="350"
+          min-width="480"
           max-width="550"
           width="520"
           max-height="auto"
@@ -61,7 +61,7 @@
         <v-img
           min-width="45"
           max-width="150"
-          width="77"
+          width="89"
           max-height="auto"
           class="start-button"
           src="@/assets/4.png"
@@ -86,15 +86,18 @@ export default {
     result: 0,
     // 멈춘 각도 결과
 
+    widthRatio: 0,
+
     // object css 값
     classObject: {
-      widthRatio: 0,
+      width: 0,
+      padding: "30px",
     },
     // 사용자 모바일 뷰포트 값
   }),
   methods: {
     update: function () {
-      this.classObject.widthRatio = this.widthRatio;
+      this.classObject.width = `${300 * this.widthRatio}px`;
     },
 
     randomNum: function () {
@@ -183,9 +186,11 @@ export default {
 
           console.log(`걸린 것 ${this.result}`);
 
-          this.matchItems(this.result);
+          const timer = setTimeout(() => {
+            this.matchItems(this.result);
+          }, 3400);
 
-          // const setTimeout () => {
+          console.log(timer);
 
           // // 룰렛 멈추고 함수 실행하게 하기
           // // 룰렛 멈추는 시간 setTimeOut으로 맞춰놓기
@@ -200,7 +205,7 @@ export default {
   computed: {
     computedStyledObject() {
       return {
-        width: this.classObject.widthRatio,
+        width: this.classObject.width,
       };
     },
   },
@@ -377,16 +382,18 @@ export default {
 .items {
   z-index: 10;
   width: 100%;
-
+  position: absolute;
+  top: 0;
   transform-origin: 50% 51%;
-  transform: rotate(-23deg);
+  /* transform: rotate(-23deg); */
   transition-timing-function: cubic-bezier(0.8, 0.09, 0.42, 0.76);
-  transition: 2s;
+  transition: 3s;
 }
 
 .pin {
   z-index: 13;
-
+  position: absolute;
+  top: 6%;
   width: 20px;
   transform-origin: 50% 50%;
   transition-timing-function: cubic-bezier(0.8, 0.09, 0.42, 0.76);
@@ -395,7 +402,9 @@ export default {
 }
 
 .start-button {
-  width: 61px;
+  width: 66px;
+  position: absolute;
+  top: 35.7%;
   z-index: 2000;
 }
 
