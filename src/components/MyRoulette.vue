@@ -33,11 +33,16 @@
     </section>
     <!-- 룰렛 -->
     <section class="roul-section">
-      <div class="roulette-box">
+      <div v-bind:style="computedStyledObject" class="roulette-box">
+        <!-- computed로 만든 이 메서드는 재사용성이 좋음
+        message가 변하지 않는 한 reversedMessage가 몇번이고 불려저도 함수는 다시 실행되는 것이 아닌 이전에 계산되어진 결과를 즉시 돌려준다
+        리액트에서 useMemo와 같은 역할 
+        methods가 렌더링을 할때마다 항상 함수를 실행한다면..
+      -->
         <v-img
           min-width="350"
           max-width="550"
-          width="450"
+          width="520"
           max-height="auto"
           class="bottom"
           src="@/assets/1.png"
@@ -46,7 +51,7 @@
         <v-img
           min-width="350"
           max-width="550"
-          width="450"
+          width="520"
           max-height="auto"
           class="items"
           src="@/assets/3.png"
@@ -81,10 +86,17 @@ export default {
     result: 0,
     // 멈춘 각도 결과
 
-    widthRatio: 0,
+    // object css 값
+    classObject: {
+      widthRatio: 0,
+    },
     // 사용자 모바일 뷰포트 값
   }),
   methods: {
+    update: function () {
+      this.classObject.widthRatio = this.widthRatio;
+    },
+
     randomNum: function () {
       let min = Math.ceil(0);
       let max = Math.floor(this.overallRol - 1);
@@ -185,8 +197,15 @@ export default {
 
     // 시작 이벤트
   },
+  computed: {
+    computedStyledObject() {
+      return {
+        width: this.classObject.widthRatio,
+      };
+    },
+  },
   created() {
-    console.log(`created`);
+    console.log(`-----크리에이티드-----`);
 
     this.widthRatio = document.documentElement.clientWidth / 320;
 
@@ -194,6 +213,11 @@ export default {
     console.log(`아이폰4 뷰포트 기준 비율 계산 ${this.widthRatio}`);
 
     // data에 마운트 전에 (dom 생성 이전에) 사용자의 Width 넓이 할당
+  },
+  beforeMount() {
+    console.log(`------비포 마운트-------`);
+    this.update();
+    console.log(`뷰포트 받아주는 update 메서드 작동`);
   },
 };
 </script>
@@ -336,13 +360,16 @@ export default {
 // 슬로건 Col
 
 .roulette-box {
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
 }
+
+// 룰렛 박스 : 룰렛 이미지 하위 요소들의 부모
+// 이 부분을 바꿔주어야 함
+
 .bottom {
   z-index: 1;
 }
