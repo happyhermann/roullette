@@ -135,7 +135,7 @@ export default {
     //
 
     onStart: function () {
-      alert("룰렛 시작?");
+      console.log(`---룰렛 버튼 눌러졌음 onStart 함수---`);
 
       // onStart 누르면 isClicked
 
@@ -454,7 +454,7 @@ export default {
 }
 
 .pin {
-  z-index: 13;
+  z-index: 12;
   position: absolute;
   top: 6%;
   width: 20px;
