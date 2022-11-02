@@ -59,45 +59,72 @@
         <v-img class="pin" src="@/assets/6.png" />
         <!-- 룰렛 핀 -->
         <v-img
+          v-bind:class="{ onClicked: isClicked }"
           min-width="45"
           max-width="150"
           width="89"
           max-height="auto"
           class="start-button"
           src="@/assets/4.png"
-          @click="onStart"
+          @click="[onStart(), update2()]"
         />
       </div>
+      <div class="token-box">
+        <div class="bonus-token">
+          <span>{{ bonusToken }}</span>
+          <span>보너스 토큰</span>
+        </div>
+        <div class="left-token">
+          <span>잔여 토큰</span>
+          <span>{{ leftToken }}</span>
+        </div>
+      </div>
     </section>
+    <slot name="modalSlot"> </slot>
+    <ShowCard ref="showCard" />
   </v-container>
 </template>
 
 <script>
+import ShowCard from "../components/ShowCard.vue";
+
 export default {
   name: "MyRoulette",
+
+  components: {
+    ShowCard,
+  },
 
   data: () => ({
     random: 0,
     // global 랜덤 변수
-
     overallRol: 8,
     // 사은품 개수
-
     result: 0,
     // 멈춘 각도 결과
-
     widthRatio: 0,
+    // 부모요소 width 비율
+    bonusToken: 3,
+    leftToken: 13,
+    // 보너스 & 잔여 토큰
 
-    // object css 값
+    // 부모 object css 값
     classObject: {
       width: 0,
-      padding: "30px",
     },
-    // 사용자 모바일 뷰포트 값
+    // 버튼 object css 값
+    classObject2: {
+      isClicked: false,
+    },
   }),
   methods: {
     update: function () {
       this.classObject.width = `${300 * this.widthRatio}px`;
+    },
+    update2: function () {
+      this.classObject2.isClicked = !this.isClicked;
+      console.log(`업데이트2 함수 작동 ${this.classObject2.isClicked}`);
+      // 클릭 확인 state (default : false)
     },
 
     randomNum: function () {
@@ -109,37 +136,76 @@ export default {
 
     onStart: function () {
       alert("룰렛 시작?");
-      this.onRotate();
+
+      // onStart 누르면 isClicked
+
+      if (!this.bonusToken == 0) {
+        this.bonusToken = this.bonusToken - 1;
+      } else if (!this.leftToken == 0) {
+        this.leftToken = this.leftToken - 1;
+      }
+
+      (this.leftToken == 0 && alert("토큰이 없습니다")) || this.onRotate();
+
+      // 보너스 토큰부터 소진, 없을시 leftToken 소진
     },
     matchItems: function (result) {
       // 추후 당첨 팝업 띄우기
       // 재활용 가능하게 고려해야함
+      let whichItem = [
+        "10만원",
+        "꽝",
+        "박카스",
+        "5천원",
+        "5만원",
+        "꽝",
+        "3만원",
+        "1만원",
+      ];
+
       switch (result) {
         case 45:
-          alert("10만원 당첨되셨습니다!");
+          console.log("10만원");
+          this.$refs.showCard.showUp(whichItem[0]);
+
           break;
         case 90:
-          alert("꽝입니다! 축하드립니다 ㅋㅋ");
+          console.log("꽝 ");
+          this.$refs.showCard.showUp(whichItem[1]);
+
           break;
         case 135:
-          alert("박카스 한 병 시원하게");
+          console.log("박카스 ");
+          this.$refs.showCard.showUp(whichItem[2]);
+
           break;
         case 180:
-          alert("5천원 당첨!");
+          console.log("5천원  ");
+          this.$refs.showCard.showUp(whichItem[3]);
+
           break;
         case 225:
-          alert("5만원 당첨!");
+          console.log("5만원");
+          this.$refs.showCard.showUp(whichItem[4]);
+
           break;
         case 270:
-          alert("꽝입니다! ㅊㅋ");
+          console.log("꽝입니다");
+          this.$refs.showCard.showUp(whichItem[5]);
+
           break;
         case 315:
-          alert("3만원 당첨!");
+          console.log("3만원");
+          this.$refs.showCard.showUp(whichItem[6]);
+
           break;
         case 360:
-          alert("1만원 당첨!");
+          console.log("1만원 !");
+          this.$refs.showCard.showUp(whichItem[7]);
 
         // switch도 재활용 가능하게 리팩토링 하기
+
+        // 이벤트 모달 띄우는 ref 자식 method 호출 문법
       }
     },
     onRotate: function () {
@@ -192,10 +258,7 @@ export default {
 
           console.log(timer);
 
-          // // 룰렛 멈추고 함수 실행하게 하기
-          // // 룰렛 멈추는 시간 setTimeOut으로 맞춰놓기
-
-          // }
+          // 룰렛 matchItems로 결과 값 얻으면 각도 초기화하는 함수 구현
         }
       }, 50);
     },
@@ -317,7 +380,7 @@ export default {
   border: 1px solid hsl(0, 0%, 85%);
   border-radius: 21px;
   background-color: white;
-  padding: 0 15px;
+  padding: 0 10px;
 }
 
 .bonus-token {
@@ -406,6 +469,13 @@ export default {
   position: absolute;
   top: 35.7%;
   z-index: 2000;
+}
+
+// 클릭시 start-button css
+.onClicked {
+  transform: translateY(-30px);
+  background-color: red;
+  padding: 300px;
 }
 
 /* 핀 애니메이션 */
