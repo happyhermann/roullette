@@ -8,10 +8,10 @@
       </template>
       <v-card>
         <v-card-title class="item-text">
-          <strong v-if="isBlank === true"> ""님 </strong>
+          <strong v-if="isBlank"> ""님 </strong>
           <strong>{{ filteredItem.title }} </strong>
-          <span v-if="isBlank === true"> 당첨 축하드립니다! </span>
-          <span v-else>다음 기회에 ㅠ</span>
+          <span v-if="isBlank"> 당첨 축하드립니다! </span>
+          <span v-if="!isBlank">다음 기회에 ㅠ</span>
           <!-- 꽝일 경우에만 조건부 렌더링 하기  -->
           <!-- v-if else로 -->
         </v-card-title>
@@ -55,7 +55,11 @@ export default {
 
       if (argItem === "꽝") {
         this.isBlank = false;
+      } else {
+        this.isBlank = true;
       }
+
+      console.log(`==== isBlank 상황 : ${argItem}일때 ${this.isBlank}  ====`);
       // 꽝 or 당첨 문구 조건부 렌더링
 
       this.dialog = true;
