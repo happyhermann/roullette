@@ -17,8 +17,6 @@
         </v-card-title>
         <img :src="filteredItem.image" alt="당첨 상품 이미지" />
 
-        <!--** issue : 로컬 호스트에서  -->
-
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn

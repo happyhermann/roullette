@@ -3,22 +3,8 @@
 <template class="template">
   <v-container justify-center fluid class="event-container">
     <!-- 헤더 -->
-    <v-row class="header" justify-space-between align-center fluid>
-      <v-col>
-        <div class="arrow-box">
-          <i class="mdi mdi-chevron-left"></i>
-        </div>
-      </v-col>
-      <v-col style="text-align: center">
-        <div>
-          <h3 class="event-title">이벤트</h3>
-        </div>
-      </v-col>
-      <v-col></v-col>
-    </v-row>
-
+    <MyHeader />
     <!-- 메인 -->
-
     <section class="text-section">
       <!-- 이벤트 문구 -->
       <div class="event-slogan">
@@ -40,18 +26,18 @@
         methods가 렌더링을 할때마다 항상 함수를 실행한다면..
       -->
         <v-img
-          min-width="480"
+          min-width="470"
           max-width="550"
-          width="520"
+          width="550"
           max-height="auto"
           class="bottom"
           src="@/assets/1.png"
         />
         <!-- 룰렛 돌림판 이미지 -->
         <v-img
-          min-width="480"
+          min-width="470"
           max-width="550"
-          width="520"
+          width="550"
           max-height="auto"
           class="items"
           src="@/assets/3.png"
@@ -62,7 +48,7 @@
           v-bind:class="{ onClicked: isClicked }"
           min-width="45"
           max-width="150"
-          width="89"
+          width="95"
           max-height="auto"
           class="start-button"
           src="@/assets/4.png"
@@ -81,18 +67,20 @@
       </div>
     </section>
     <slot name="modalSlot"> </slot>
-    <ShowCard ref="showCard" />
+    <ShowCard class="showCard" ref="showCard" />
   </v-container>
 </template>
 
 <script>
 import ShowCard from "../components/ShowCard.vue";
+import MyHeader from "../components/MyHeader.vue";
 
 export default {
   name: "MyRoulette",
 
   components: {
     ShowCard,
+    MyHeader,
   },
 
   data: () => ({
@@ -126,6 +114,7 @@ export default {
       console.log(`업데이트2 함수 작동 ${this.classObject2.isClicked}`);
       // 클릭 확인 state (default : false)
     },
+    // 시작 버튼 클릭 toggle function for <버튼 애니메이션 추후 바인딩>
 
     randomNum: function () {
       let min = Math.ceil(0);
@@ -164,49 +153,53 @@ export default {
       ];
 
       switch (result) {
-        case 45:
+        case 0:
           console.log("10만원");
           this.$refs.showCard.showUp(whichItem[0]);
 
           break;
-        case 90:
-          console.log("꽝 ");
+        case 45:
+          console.log("꽝");
           this.$refs.showCard.showUp(whichItem[1]);
 
           break;
-        case 135:
-          console.log("박카스 ");
+        case 90:
+          console.log("박카스");
           this.$refs.showCard.showUp(whichItem[2]);
 
           break;
-        case 180:
-          console.log("5천원  ");
+        case 135:
+          console.log("5천원");
           this.$refs.showCard.showUp(whichItem[3]);
 
           break;
-        case 225:
+        case 180:
           console.log("5만원");
           this.$refs.showCard.showUp(whichItem[4]);
 
           break;
-        case 270:
+        case 225:
           console.log("꽝입니다");
           this.$refs.showCard.showUp(whichItem[5]);
 
           break;
-        case 315:
+        case 270:
           console.log("3만원");
           this.$refs.showCard.showUp(whichItem[6]);
 
           break;
-        case 360:
-          console.log("1만원 !");
+        case 315:
+          console.log("1만원!");
           this.$refs.showCard.showUp(whichItem[7]);
 
         // switch도 재활용 가능하게 리팩토링 하기
 
         // 이벤트 모달 띄우는 ref 자식 method 호출 문법
       }
+
+      // matchItem이후 룰렛 0으로 초기화
+      // const items = document.querySelector(".items"); // eslint-disable-line no-unused-vars
+      // items.style.transform = "rotate(" + 0 + "deg)";
     },
     onRotate: function () {
       const btn = document.querySelector(".start-button"); // eslint-disable-line no-unused-vars
@@ -218,8 +211,12 @@ export default {
       for (let i = 1, len = this.overallRol; i <= len; i++) {
         deg.push((360 / len) * i);
       }
+
+      let degResult = 0;
       // 재사용 가능하게 len으로 전체 상품 개수가 들어오면
       // 자동으로 배열에 최소값부터 최대값까지 넣어줌
+
+      console.log(deg);
 
       let num = 0;
       // 회전 회수 초기 state
@@ -241,26 +238,36 @@ export default {
         if (num == 40) {
           console.log("40회 끝");
           clearInterval(anim);
+          // 회전 삭제
           pin.classList.remove("shake");
-          // 핀 애니메이션 remove
+          // 핀 애니메이션 삭제
 
-          items.style.transform = "rotate(" + deg[this.randomNum()] + "deg)";
+          degResult = deg[this.randomNum()];
 
-          this.result = deg[this.randomNum()];
+          items.style.transform = "rotate(" + degResult + "deg)";
+
+          console.log(`deg 결과 : ${degResult}`);
+
+          // this.result = deg[this.randomNum()];
+
+          // 여기 css 값이랑
+
+          // 이 아래 result 값이랑 일치 하지 않을때가 있음
+
           // 룰렛 결과 data state 변경
           // 리액트랑 다르게 setState로 변경할 필요 없이 바로 할당하면 값 변경
-
-          console.log(`걸린 것 ${this.result}`);
-
-          const timer = setTimeout(() => {
-            this.matchItems(this.result);
-          }, 3400);
-
-          console.log(timer);
 
           // 룰렛 matchItems로 결과 값 얻으면 각도 초기화하는 함수 구현
         }
       }, 50);
+
+      const timer = setTimeout(() => {
+        this.matchItems(degResult);
+        // 결과 보여주고 버튼 사용 가능하게
+        btn.disabled = false;
+      }, 5200);
+
+      console.log(timer);
     },
 
     // 시작 이벤트
@@ -289,11 +296,6 @@ export default {
   },
 };
 </script>
-
-<!-- 설계 시작전 세팅 
-  
-
--->
 
 <style lang="scss">
 .template {
@@ -461,7 +463,6 @@ export default {
   transform-origin: 50% 50%;
   transition-timing-function: cubic-bezier(0.8, 0.09, 0.42, 0.76);
   transition: 0.2s;
-  z-index: 6000;
 }
 
 .start-button {
@@ -496,5 +497,7 @@ export default {
   }
 }
 
-// test
+/* showCard */
+
+// degResult
 </style>

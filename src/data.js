@@ -30,14 +30,14 @@ const data = [
     image: require("./assets/꽝.png"),
   },
   {
-    id: 5,
+    id: 6,
     title: "3만원",
     image: require("./assets/002.jpg"),
   },
   {
-    id: 5,
+    id: 7,
     title: "1만원",
-    image: require("./assets/001.jpg"),
+    image: require("./assets/003.jpg"),
   },
 ];
 
