@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import MyRoulette from "./components/MyRoulette.vue";
+import MyRoulette from "./components/EventRoulette.vue";
 
 export default {
   name: "App",

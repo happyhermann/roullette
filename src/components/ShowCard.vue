@@ -63,6 +63,7 @@ export default {
       // argItem에서 넘어온 값에 따라
       // data 몇 번을 뿌려줄 지 조건을 여기서 결정하는 것??
 
+      // axios로 response 받은 data 가정해서 data 필터링
       const filteredResult = data.filter((item) => item.title === argItem);
       // v-bind로 data에 동적으로 바인딩 될 한 가지가 들어가야할 곳
 

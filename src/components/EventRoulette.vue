@@ -4,19 +4,9 @@
   <v-container justify-center fluid class="event-container">
     <!-- 헤더 -->
     <MyHeader />
-    <!-- 메인 -->
-    <section class="text-section">
-      <!-- 이벤트 문구 -->
-      <div class="event-slogan">
-        <div class="slogan-top">
-          <span>12/1 ~ 12/31</span>
-          <span>수거하는 날?</span>
-        </div>
-        <p class="slogan-day">룰렛 돌리는 날!</p>
-        <p class="slogan-token">수거 완료하고 받은 토큰으로 경품 받자~</p>
-        <!-- </div> -->
-      </div>
-    </section>
+    <!-- 텍스트 -->
+    <EventText />
+
     <!-- 룰렛 -->
     <section class="roul-section">
       <div v-bind:style="computedStyledObject" class="roulette-box">
@@ -72,15 +62,17 @@
 </template>
 
 <script>
-import ShowCard from "../components/ShowCard.vue";
-import MyHeader from "../components/MyHeader.vue";
+import ShowCard from "./ShowCard.vue";
+import MyHeader from "./EventHeader.vue";
+import EventText from "./EventText.vue";
 
 export default {
   name: "MyRoulette",
 
   components: {
-    ShowCard,
     MyHeader,
+    EventText,
+    ShowCard,
   },
 
   data: () => ({
@@ -230,7 +222,8 @@ export default {
         // anim대신 직접 rotate css로 작동
         pin.classList.add("shake");
         // 핀 흔들리는 애니메이션도 함께
-        btn.disabled = true;
+
+        // btn.disabled = true;
         // 판 돌아갈 동안 버튼 조작 불가능
 
         // pin.classList.add('shake')
@@ -239,33 +232,29 @@ export default {
           console.log("40회 끝");
           clearInterval(anim);
           // 회전 삭제
+
           pin.classList.remove("shake");
-          // 핀 애니메이션 삭제
 
           degResult = deg[this.randomNum()];
 
-          items.style.transform = "rotate(" + degResult + "deg)";
+          items.style.transform = "rotate(" + (degResult + 30) + "deg)";
+          // degResult 뒤에 임의 30deg 추가해서 경품 중앙 애매하게 위치하게 세팅
 
           console.log(`deg 결과 : ${degResult}`);
 
           // this.result = deg[this.randomNum()];
-
-          // 여기 css 값이랑
-
-          // 이 아래 result 값이랑 일치 하지 않을때가 있음
-
-          // 룰렛 결과 data state 변경
-          // 리액트랑 다르게 setState로 변경할 필요 없이 바로 할당하면 값 변경
 
           // 룰렛 matchItems로 결과 값 얻으면 각도 초기화하는 함수 구현
         }
       }, 50);
 
       const timer = setTimeout(() => {
+        // 핀 애니메이션 삭제
+
         this.matchItems(degResult);
         // 결과 보여주고 버튼 사용 가능하게
         btn.disabled = false;
-      }, 5200);
+      }, 5500);
 
       console.log(timer);
     },

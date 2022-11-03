@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  name: "MyHeader",
+  name: "EventHeader",
 
   data: () => ({}),
 };
