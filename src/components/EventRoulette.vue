@@ -58,11 +58,11 @@
         </div>
       </div>
     </section>
-    <slot name="modalSlot"> </slot>
+    <MainBanner />
+
     <ShowCard class="showCard" ref="showCard" />
   </v-container>
   <EventAward />
-  <MainBanner />
 </template>
 
 <script>
@@ -70,7 +70,7 @@ import ShowCard from "./ShowCard.vue";
 import MyHeader from "./EventHeader.vue";
 import EventText from "./EventText.vue";
 import EventAward from "./EventAward.vue";
-import MainBanner from "./MainBanner.vue";
+import MainBanner from "../common/MainBanner.vue";
 
 export default {
   name: "MyRoulette",
@@ -486,6 +486,10 @@ export default {
   position: absolute;
   top: 35.7%;
   z-index: 2000;
+}
+
+#btn1 {
+  width: 79px;
 }
 
 // 클릭시 start-button css

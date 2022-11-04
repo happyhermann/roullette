@@ -87,22 +87,22 @@
         <div class="winner-list-item">
           <span>12/1 ~ 12/9</span>
           <div class="comming-soon-text"><p>12월 10일 OPEN</p></div>
-          <img alt="" />
+          <!-- <img alt="" /> -->
         </div>
         <div class="winner-list-item">
           <span>12/10 ~ 12/16</span>
           <div class="comming-soon-text"><p>12월 17일 OPEN</p></div>
-          <img alt="" />
+          <!-- <img alt="" /> -->
         </div>
         <div class="winner-list-item">
           <span>12/17 ~ 12/23</span>
           <div class="comming-soon-text"><p>12월 24일 OPEN</p></div>
-          <img alt="" />
+          <!-- <img alt="" /> -->
         </div>
         <div class="winner-list-item">
           <span>12/14 ~ 12/31</span>
           <div class="comming-soon-text"><p>1월 2일 OPEN</p></div>
-          <img alt="" />
+          <!-- <img alt="" /> -->
         </div>
       </div>
     </aside>
@@ -150,7 +150,7 @@ export default {
 
 .box {
   border-bottom: 1px solid rgba(217, 217, 217, 1);
-  padding: $mobile-padding-10;
+  padding: $mobile-items-padding;
   margin-bottom: 14px;
 }
 
@@ -178,6 +178,7 @@ export default {
 .event-items-item div {
   display: flex;
   align-items: center;
+  margin-bottom: 1.2px;
 
   span {
     margin-left: 15px;
@@ -188,15 +189,16 @@ export default {
 
 /* 이벤트 당첨자 이미지 섹션 */
 .event-winners {
-  padding: $mobile-padding-10;
+  padding: $mobile-items-padding;
   border-bottom: 1px solid rgba(217, 217, 217, 1);
 }
 
 .winner-list-item {
+  margin-bottom: 22px;
   span {
     display: inline-block;
     margin-bottom: 7px;
-    font-size: 13px;
+    font-size: 11px;
   }
 }
 
@@ -221,11 +223,11 @@ export default {
 /* 이벤트 (footer) 주의사항 / 설명 섹션 */
 
 .event-desc {
-  padding: $mobile-padding-10;
+  padding: $mobile-items-padding;
 
   span {
     color: rgba(122, 122, 122, 1);
-    font-size: 10px;
+    font-size: 11px;
     font-weight: 100;
     line-height: 16px;
   }
