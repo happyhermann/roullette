@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 <template class="template">
-  <v-container justify-center fluid class="event-container">
+  <v-container justify-center fluid class="event-main">
     <!-- 헤더 -->
     <MyHeader />
     <!-- 텍스트 -->
@@ -16,34 +16,36 @@
         methods가 렌더링을 할때마다 항상 함수를 실행한다면..
       -->
         <v-img
-          min-width="470"
+          contain
+          min-width="320"
           max-width="550"
-          width="550"
+          width="450"
           max-height="auto"
           class="bottom"
           src="@/assets/1.png"
         />
         <!-- 룰렛 돌림판 이미지 -->
         <v-img
-          min-width="470"
+          min-width="320"
           max-width="550"
-          width="550"
+          width="450"
           max-height="auto"
           class="items"
           src="@/assets/3.png"
         />
         <v-img class="pin" src="@/assets/6.png" />
         <!-- 룰렛 핀 -->
-        <v-img
-          v-bind:class="{ onClicked: isClicked }"
-          min-width="45"
-          max-width="150"
-          width="95"
-          max-height="auto"
-          class="start-button"
-          src="@/assets/4.png"
-          @click="[onStart(), update2()]"
-        />
+        <button id="btn1" @click="[onStart($event), update2()]">
+          <v-img
+            v-bind:class="{ onClicked: isClicked }"
+            min-width="60"
+            max-width="150"
+            width="80"
+            max-height="auto"
+            class="start-button"
+            src="@/assets/4.png"
+          />
+        </button>
       </div>
       <div class="token-box">
         <div class="bonus-token">
@@ -59,12 +61,16 @@
     <slot name="modalSlot"> </slot>
     <ShowCard class="showCard" ref="showCard" />
   </v-container>
+  <EventAward />
+  <MainBanner />
 </template>
 
 <script>
 import ShowCard from "./ShowCard.vue";
 import MyHeader from "./EventHeader.vue";
 import EventText from "./EventText.vue";
+import EventAward from "./EventAward.vue";
+import MainBanner from "./MainBanner.vue";
 
 export default {
   name: "MyRoulette",
@@ -73,6 +79,8 @@ export default {
     MyHeader,
     EventText,
     ShowCard,
+    EventAward,
+    MainBanner,
   },
 
   data: () => ({
@@ -88,9 +96,13 @@ export default {
     leftToken: 13,
     // 보너스 & 잔여 토큰
 
+    initWidth: 0,
+    // v-img 값
+
     // 부모 object css 값
     classObject: {
       width: 0,
+      imgWidth: 0,
     },
     // 버튼 object css 값
     classObject2: {
@@ -105,8 +117,14 @@ export default {
       this.classObject2.isClicked = !this.isClicked;
       console.log(`업데이트2 함수 작동 ${this.classObject2.isClicked}`);
       // 클릭 확인 state (default : false)
+      // 시작 버튼 클릭 toggle function for <버튼 애니메이션 추후 바인딩>
     },
-    // 시작 버튼 클릭 toggle function for <버튼 애니메이션 추후 바인딩>
+    imgWidthUpdate: function () {
+      this.classObject.imgWidth = this.initWidth;
+      console.log(
+        `===classObject===imgWidthUpdate 함수 작동 : ${this.classObject.imgWidth}`
+      );
+    },
 
     randomNum: function () {
       let min = Math.ceil(0);
@@ -117,6 +135,7 @@ export default {
 
     onStart: function () {
       console.log(`---룰렛 버튼 눌러졌음 onStart 함수---`);
+      // var target = event.target;
 
       // onStart 누르면 isClicked
 
@@ -214,7 +233,6 @@ export default {
       // 회전 회수 초기 state
 
       const anim = setInterval(() => {
-        console.log("셋 인터벌 작동");
         num++;
         // 반복될 때 마다 회전 회수 더해줌
 
@@ -222,21 +240,16 @@ export default {
         // anim대신 직접 rotate css로 작동
         pin.classList.add("shake");
         // 핀 흔들리는 애니메이션도 함께
+        btn.disabled = true;
+        btn.style.pointerEvents = "none";
 
-        // btn.disabled = true;
-        // 판 돌아갈 동안 버튼 조작 불가능
-
-        // pin.classList.add('shake')
-
-        if (num == 40) {
-          console.log("40회 끝");
+        if (num == 50) {
+          console.log("50회 끝");
           clearInterval(anim);
           // 회전 삭제
-
           pin.classList.remove("shake");
 
           degResult = deg[this.randomNum()];
-
           items.style.transform = "rotate(" + (degResult + 30) + "deg)";
           // degResult 뒤에 임의 30deg 추가해서 경품 중앙 애매하게 위치하게 세팅
 
@@ -249,11 +262,11 @@ export default {
       }, 50);
 
       const timer = setTimeout(() => {
-        // 핀 애니메이션 삭제
-
         this.matchItems(degResult);
-        // 결과 보여주고 버튼 사용 가능하게
+
         btn.disabled = false;
+        btn.style.pointerEvents = "auto";
+        // 버튼 누를 수 있게 복구
       }, 5500);
 
       console.log(timer);
@@ -267,21 +280,28 @@ export default {
         width: this.classObject.width,
       };
     },
+    computedStyledObject2() {
+      return {
+        width: this.classObject.imgWidth,
+      };
+    },
   },
   created() {
     console.log(`-----크리에이티드-----`);
 
     this.widthRatio = document.documentElement.clientWidth / 320;
+    this.initWidth = document.documentElement.clientWidth;
 
     console.log(`당신의 뷰포트 사이즈 ${document.documentElement.clientWidth}`);
     console.log(`아이폰4 뷰포트 기준 비율 계산 ${this.widthRatio}`);
+    console.log(`initWidth 값 ${this.initWidth}`);
 
     // data에 마운트 전에 (dom 생성 이전에) 사용자의 Width 넓이 할당
   },
   beforeMount() {
     console.log(`------비포 마운트-------`);
     this.update();
-    console.log(`뷰포트 받아주는 update 메서드 작동`);
+    this.imgWidthUpdate();
   },
 };
 </script>
@@ -310,7 +330,7 @@ export default {
     font-weight: 700;
   }
 }
-.event-container {
+.event-main {
   width: 100%;
   height: 100vh;
   background-color: $background;
@@ -363,22 +383,19 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  transform: translateY(-30px);
 }
 
 .bonus-token,
 .left-token {
-  width: 150px;
+  width: 100px;
   border: 1px solid hsl(0, 0%, 85%);
   border-radius: 21px;
   background-color: white;
-  padding: 0 10px;
-}
-
-.bonus-token {
-  margin-right: 5px;
+  padding: 5px 10px;
 
   span:first-child {
-    font-size: 45px;
+    font-size: 35px;
     font-weight: 800;
     color: $button-color1;
     margin-right: 13px;
@@ -388,8 +405,18 @@ export default {
     font-weight: 400;
   }
 }
+.bonus-token {
+  width: 130px;
+  margin-right: 5px;
+}
+
 .left-token {
-  width: 150px;
+  width: 130px;
+
+  border: 1px solid hsl(0deg, 0%, 85%);
+  border-radius: 21px;
+  background-color: white;
+
   span:first-child {
     font-size: 13px;
     font-weight: 400;
@@ -397,7 +424,7 @@ export default {
   }
 
   span:last-child {
-    font-size: 45px;
+    font-size: 35px;
     font-weight: 800;
     color: $button-color2;
   }
@@ -482,11 +509,16 @@ export default {
     transform: rotate(0deg);
   }
   100% {
-    transform: rotate(-8deg);
+    transform: rotate(10deg);
   }
 }
 
 /* showCard */
 
 // degResult
+
+.bottom,
+.items {
+  width: 30px;
+}
 </style>
