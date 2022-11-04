@@ -1,3 +1,5 @@
 # Roullette (Vue Js)
 
-배포 : https://fabulous-douhua-770d96.netlify.app/
+## Event Roullette based on Vue js and SCSS
+
+Demo : https://fabulous-douhua-770d96.netlify.app/
