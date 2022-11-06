@@ -13,7 +13,7 @@
         </article>
       </div>
       <div class="footer">
-        <span @click="closeModal()" class="btn js-temp-close-modal"
+        <span @click="todayClose()" class="btn js-temp-close-modal"
           >다시보지 않기</span
         >
         <!-- 다시보지 않기 버튼  -->
@@ -81,16 +81,31 @@ export default {
 
       console.log(`모달 닫기 `);
     },
+    todayClose: function () {
+      this.closeModal();
+      this.setCookie("mycookie", "popupEnd", 1);
+    },
   },
 
   created() {
     console.log(`====created====`);
-    this.setCookie("mycookie", "popupEnd", 1);
+
+    // this.setCookie("mycookie", "popupEnd", 1);
     // 쿠키 세팅 함수 호출
   },
-  beforeMount() {
+  mounted() {
     console.log(`====beforeMount====`);
-    this.getCookie("mycookie");
+    var checkCookie = this.getCookie("mycookie");
+
+    if (checkCookie == "popupEnd") {
+      console.log(`쿠키가 있네`);
+      this.closeModal();
+      // 쿠키가 있으면 숨김
+    } else {
+      console.log(`쿠키가 없네`);
+      this.openModal();
+      // 쿠키가 없으면 오픈
+    }
     // 마운트 이전에 쿠키 값 있는지 확인
   },
 };
@@ -127,6 +142,7 @@ export default {
   position: fixed;
   left: 0;
   text-align: left;
+  z-index: 100000;
 
   /* body / article 메인 컨텐츠 스타일  */
   .body {
@@ -147,7 +163,7 @@ article {
 }
 
 .container.modal-open .modal {
-  top: 0;
+  top: 65%;
 }
 
 // 닫기 버튼 CSS
