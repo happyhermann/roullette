@@ -28,6 +28,8 @@ export default {
   name: "MainBanner",
 
   data: () => ({
+    heightValue: "",
+
     isOpend: false,
     //
   }),
@@ -70,7 +72,9 @@ export default {
       console.log(`오픈 모달`);
       const container = document.querySelector(".container");
       //   this.isOpend = true;
-      container.classList.add("modal-open");
+      setTimeout(() => {
+        container.classList.add("modal-open");
+      }, 1000);
     },
     closeModal: function () {
       const container = document.querySelector(".container");
@@ -81,19 +85,59 @@ export default {
     },
     todayClose: function () {
       this.closeModal();
-      this.setCookie("mycookie", "popupEnd", 7);
+      this.setCookie("mycookie", "popupEnd", 3);
       // 저장될 쿠키명, 쿠키 value값, 기간 (ex 1은 하루, 7은 일주일)
+    },
+    updateHeight() {
+      console.log(`height값 조건으로 거르는 함수`);
+
+      let Modal = document.querySelector(".modal");
+      let ModalOpen = document.querySelector(".modal-open");
+
+      if (this.heightValue === "small") {
+        Modal.style.top = "30%";
+        ModalOpen.style.top = "30%";
+      }
+      if (this.heightValue === "medium") {
+        Modal.style.top = "30%";
+        ModalOpen.style.top = "30%";
+      }
+      if (this.heightValue === "large") {
+        Modal.style.top = "40%";
+        ModalOpen.style.top = "40%";
+      }
     },
   },
 
   created() {
     console.log(`====created====`);
 
+    console.log(`클라이언트 height 값 ${this.heightValue}`);
+
+    if (document.documentElement.clientHeight < 482) {
+      console.log(`Height값 480미만 ex: iphone4 `);
+      this.heightValue = "small";
+    }
+    if (490 < document.documentElement.clientHeight < 700) {
+      console.log(`Height값 480이상 700미만 ex: iphone se`);
+      this.heightValue = "medium";
+
+      // Modal.style.top = "50%";
+    }
+    if (705 < document.documentElement.clientHeight < 1000) {
+      console.log(`Height값 700이상 1000미만 Ex: 갤럭시 s8, 노트`);
+      this.heightValue = "large";
+
+      // Modal.style.top = "45%";
+    }
+
     // this.setCookie("mycookie", "popupEnd", 1);
     // 쿠키 세팅 함수 호출
   },
+
   mounted() {
     console.log(`====beforeMount====`);
+
     var checkCookie = this.getCookie("mycookie");
 
     if (checkCookie == "popupEnd") {
@@ -106,6 +150,9 @@ export default {
       // 쿠키가 없으면 오픈
     }
     // 마운트 이전에 쿠키 값 있는지 확인
+  },
+  beforeUpdated() {
+    this.updateHeight();
   },
 };
 </script>
@@ -157,8 +204,10 @@ article {
   }
 }
 
+// 이것도 반응형으로 줘야할 듯
+
 .container.modal-open .modal {
-  top: 40%;
+  top: 55%;
 }
 
 // 닫기 버튼 CSS
@@ -184,6 +233,41 @@ article {
   color: #000;
   &:hover {
     cursor: pointer;
+  }
+}
+
+/* 미디어 쿼리  */
+
+@media (min-height: 460px) and (max-height: 490px) {
+  /* 아이폰4 사이즈 노란 배경 자연스레 */
+  .container.modal-open .modal {
+    top: 55%;
+  }
+}
+@media (min-height: 500px) and (max-height: 700px) {
+  /* 아이폰4 사이즈 노란 배경 자연스레 */
+  .container.modal-open .modal {
+    top: 63%;
+  }
+}
+@media (min-height: 730px) and (max-height: 850px) {
+  .container.modal-open .modal {
+    top: 68%;
+  }
+}
+@media (min-height: 850px) and (max-height: 900px) {
+  .container.modal-open .modal {
+    top: 70%;
+  }
+}
+@media (min-height: 902px) and (max-height: 1000px) {
+  .container.modal-open .modal {
+    top: 71%;
+  }
+}
+@media (min-height: 1050px) {
+  .container.modal-open .modal {
+    top: 58%;
   }
 }
 </style>
