@@ -101,8 +101,8 @@ export default {
     // 멈춘 각도 결과
     widthRatio: 0,
     // 부모요소 width 비율
-    bonusToken: 3,
-    leftToken: 13,
+    bonusToken: 2,
+    leftToken: 1,
     // 보너스 & 잔여 토큰
 
     initWidth: 0,
@@ -177,14 +177,17 @@ export default {
       // onStart 누르면 isClicked
 
       if (!this.bonusToken == 0) {
+        this.onRotate();
         this.bonusToken = this.bonusToken - 1;
       } else if (!this.leftToken == 0) {
+        this.onRotate();
+
         this.leftToken = this.leftToken - 1;
+      } else if (this.leftToken == 0) {
+        alert(`토큰이 없습니다`);
       }
 
-      (this.leftToken == 0 && alert("토큰이 없습니다")) || this.onRotate();
-
-      // 보너스 토큰부터 소진, 없을시 leftToken 소진
+      // 토큰 0일때 onRotate 못 누르게
     },
     matchItems: function (result) {
       // 추후 당첨 팝업 띄우기
@@ -306,12 +309,10 @@ export default {
         this.matchItems(degResult);
         // items.style.transform = "rotate(" + (degResult + 18030) + "deg)";
 
-        pin.classList.remove("shake");
-
         btn.disabled = false;
         btn.style.pointerEvents = "auto";
         // 버튼 누를 수 있게 복구
-      }, 5000);
+      }, 5800);
 
       console.log(timer);
     },
@@ -641,6 +642,10 @@ export default {
   .event-main {
     height: 90vh;
   }
+  .token-box {
+    transform: translateY(-80px);
+  }
 }
+
 /* 아이폰 12 pro 기준 */
 </style>

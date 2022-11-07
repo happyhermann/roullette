@@ -1,23 +1,25 @@
 <template>
-  <div class="container">
-    <!-- <a @click="openModal()" class="btn js-click-modal">Open Modal</a> -->
-    <div class="modal">
-      <article class="ad-img-box">
-        <img
-          class="ad-img"
-          src="https://storage.cobak.co/uploads/1635821281397702_2600bbdbd5.png"
-          alt="배너 이미지"
-        />
-        <!-- 홍보할 컨텐츠 이미지 -->
-      </article>
-      <div class="footer">
-        <span @click="todayClose()" class="btn js-temp-close-modal"
-          >3일간 보지 않기</span
-        >
-        <!-- 다시보지 않기 버튼  -->
+  <div>
+    <div class="container">
+      <!-- <a @click="openModal()" class="btn js-click-modal">Open Modal</a> -->
+      <div class="modal">
+        <article class="ad-img-box">
+          <img
+            class="ad-img"
+            src="https://storage.cobak.co/uploads/1635821281397702_2600bbdbd5.png"
+            alt="배너 이미지"
+          />
+          <!-- 홍보할 컨텐츠 이미지 -->
+        </article>
+        <div class="footer">
+          <span @click="todayClose()" class="btn js-temp-close-modal"
+            >3일간 보지 않기</span
+          >
+          <!-- 다시보지 않기 버튼  -->
 
-        <span @click="closeModal()" class="btn js-close-modal">닫기</span>
-        <!-- 단순 닫기 버튼 -->
+          <span @click="closeModal()" class="btn js-close-modal">닫기</span>
+          <!-- 단순 닫기 버튼 -->
+        </div>
       </div>
     </div>
   </div>
@@ -70,6 +72,7 @@ export default {
 
     openModal: function () {
       console.log(`오픈 모달`);
+
       const container = document.querySelector(".container");
       //   this.isOpend = true;
       setTimeout(() => {
@@ -84,7 +87,11 @@ export default {
       console.log(`모달 닫기 `);
     },
     todayClose: function () {
+      var root = document.getElementsByTagName("html")[0]; // '0' to assign the first (and only `HTML` tag)
+      root.classList.remove("myCssClass");
+
       this.closeModal();
+
       this.setCookie("mycookie", "popupEnd", 3);
       // 저장될 쿠키명, 쿠키 value값, 기간 (ex 1은 하루, 7은 일주일)
     },
@@ -210,7 +217,7 @@ article {
   top: 55%;
 }
 
-// 닫기 버튼 CSS
+/* stop scroll classList */
 
 .footer {
   display: flex;
@@ -236,7 +243,7 @@ article {
   }
 }
 
-/* 미디어 쿼리  */
+/* 미디어 쿼리 배너 반응형 기기별 */
 
 @media (min-height: 460px) and (max-height: 490px) {
   /* 아이폰4 사이즈 노란 배경 자연스레 */
