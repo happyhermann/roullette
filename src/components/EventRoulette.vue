@@ -134,6 +134,8 @@ export default {
       let Items = document.querySelector(".items");
       let StartButton = document.querySelector(".start-button");
 
+      // 모바일 반응형 이미지 설정
+
       if (this.widthSize === "small") {
         // iphone4 이미지
         Bottom.style.width = "260px";
@@ -620,5 +622,25 @@ export default {
 
 /* showCard */
 
-// degResult
+/* media query */
+
+@media (min-width: 310px) and (max-width: 360px) {
+  .event-main {
+    height: 600px;
+  }
+  /* 아이폰4 사이즈 노란 배경 자연스레 */
+
+  .roulette-box {
+    margin-top: 25px;
+  }
+  .token-box {
+    transform: translateY(-80px);
+  }
+}
+@media (min-width: 370px) and (max-width: 420px) {
+  .event-main {
+    height: 90vh;
+  }
+}
+/* 아이폰 12 pro 기준 */
 </style>
