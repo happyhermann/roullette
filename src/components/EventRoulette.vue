@@ -1,7 +1,8 @@
 /* eslint-disable */
 
 <template class="template">
-  <v-container justify-center fluid class="event-main">
+  <!-- <v-container justify-center fluid class="event-main"> -->
+  <div class="event-main">
     <!-- 헤더 -->
     <MyHeader />
     <!-- 텍스트 -->
@@ -15,36 +16,43 @@
         리액트에서 useMemo와 같은 역할 
         methods가 렌더링을 할때마다 항상 함수를 실행한다면..
       -->
-        <v-img
+        <img class="bottom" :src="require(`../assets/1.png`)" />
+        <!-- <v-img
           contain
-          min-width="320"
-          max-width="550"
-          width="450"
+          min-width="70"
+          max-width="300"
+          width="230"
           max-height="auto"
           class="bottom"
           src="@/assets/1.png"
-        />
+        /> -->
         <!-- 룰렛 돌림판 이미지 -->
-        <v-img
-          min-width="320"
-          max-width="550"
-          width="450"
+        <!-- <v-img
+          min-width="70"
+          max-width="300"
+          width="200"
           max-height="auto"
           class="items"
           src="@/assets/3.png"
-        />
+        /> -->
+        <img class="items" :src="require(`../assets/3.png`)" />
+
         <v-img class="pin" src="@/assets/6.png" />
         <!-- 룰렛 핀 -->
+        <!-- 
         <button id="btn1" @click="[onStart($event), update2()]">
           <v-img
             v-bind:class="{ onClicked: isClicked }"
             min-width="60"
             max-width="150"
-            width="80"
+            width="85"
             max-height="auto"
             class="start-button"
             src="@/assets/4.png"
           />
+        </button> -->
+        <button id="btn1" @click="[onStart($event), update2()]">
+          <img class="start-button" :src="require(`../assets/4.png`)" />
         </button>
       </div>
       <div class="token-box">
@@ -61,7 +69,8 @@
     <MainBanner />
 
     <ShowCard class="showCard" ref="showCard" />
-  </v-container>
+  </div>
+
   <EventAward />
 </template>
 
@@ -98,6 +107,7 @@ export default {
 
     initWidth: 0,
     // v-img 값
+    widthSize: "",
 
     // 부모 object css 값
     classObject: {
@@ -118,6 +128,31 @@ export default {
       console.log(`업데이트2 함수 작동 ${this.classObject2.isClicked}`);
       // 클릭 확인 state (default : false)
       // 시작 버튼 클릭 toggle function for <버튼 애니메이션 추후 바인딩>
+    },
+    update3: function () {
+      let Bottom = document.querySelector(".bottom");
+      let Items = document.querySelector(".items");
+      let StartButton = document.querySelector(".start-button");
+
+      if (this.widthSize === "small") {
+        // iphone4 이미지
+        Bottom.style.width = "260px";
+        Items.style.width = "228px";
+        StartButton.style.width = "96px";
+        StartButton.style.transform = "translateX(-48px)";
+      } else if (this.widthSize === "medium") {
+        Bottom.style.width = "300px";
+        Items.style.width = "265px";
+        StartButton.style.width = "110px";
+        StartButton.style.transform = "translateX(-55px)";
+
+        // 큰 이미지
+      } else {
+        Bottom.style.width = "320px";
+        Items.style.width = "285px";
+        StartButton.style.width = "120px";
+        StartButton.style.transform = "translateX(-55px)";
+      }
     },
     imgWidthUpdate: function () {
       this.classObject.imgWidth = this.initWidth;
@@ -232,25 +267,29 @@ export default {
       let num = 0;
       // 회전 회수 초기 state
 
+      degResult = deg[this.randomNum()];
+
       const anim = setInterval(() => {
         num++;
+
         // 반복될 때 마다 회전 회수 더해줌
 
-        items.style.transform = "rotate(" + 360 * num + "deg)";
+        // items.style.transform = "rotate(" + 360 * num + "deg)";
+        items.style.transform =
+          "rotate(" + 360 * num + (degResult + 30) + "deg)";
+
         // anim대신 직접 rotate css로 작동
         pin.classList.add("shake");
         // 핀 흔들리는 애니메이션도 함께
         btn.disabled = true;
         btn.style.pointerEvents = "none";
 
-        if (num == 50) {
+        if (num === 50) {
           console.log("50회 끝");
           clearInterval(anim);
           // 회전 삭제
-          pin.classList.remove("shake");
 
-          degResult = deg[this.randomNum()];
-          items.style.transform = "rotate(" + (degResult + 30) + "deg)";
+          // items.style.transform = "rotate(" + (degResult + 18030) + "deg)";
           // degResult 뒤에 임의 30deg 추가해서 경품 중앙 애매하게 위치하게 세팅
 
           console.log(`deg 결과 : ${degResult}`);
@@ -263,11 +302,14 @@ export default {
 
       const timer = setTimeout(() => {
         this.matchItems(degResult);
+        // items.style.transform = "rotate(" + (degResult + 18030) + "deg)";
+
+        pin.classList.remove("shake");
 
         btn.disabled = false;
         btn.style.pointerEvents = "auto";
         // 버튼 누를 수 있게 복구
-      }, 5500);
+      }, 5000);
 
       console.log(timer);
     },
@@ -297,11 +339,28 @@ export default {
     console.log(`initWidth 값 ${this.initWidth}`);
 
     // data에 마운트 전에 (dom 생성 이전에) 사용자의 Width 넓이 할당
+
+    if (document.documentElement.clientWidth < 350) {
+      console.log(`당신의 폰의 뷰포트 사이즈는 350 미만 입니다`);
+      this.widthSize = "small";
+      // Bottom.style.width = "20px";
+
+      // Items.style.width = "30px";
+    } else if (350 < document.documentElement.clientWidth < 400) {
+      console.log(`당신의 뷰포트는 350보다 크지만 400보단 작습니다`);
+      this.widthSize = "medium";
+    }
   },
   beforeMount() {
     console.log(`------비포 마운트-------`);
     this.update();
     this.imgWidthUpdate();
+
+    // const Bottom = document.querySelector(".bottom");
+    // const Items = document.querySelector(".items");
+  },
+  mounted() {
+    this.update3();
   },
 };
 </script>
@@ -309,7 +368,6 @@ export default {
 <style lang="scss">
 .template {
   width: 100%;
-  height: 100vw;
 }
 
 // 이벤트 헤더
@@ -330,9 +388,10 @@ export default {
     font-weight: 700;
   }
 }
+
 .event-main {
   width: 100%;
-  height: 100vh;
+  height: 60vh;
   background-color: $background;
 }
 
@@ -451,30 +510,69 @@ export default {
   align-items: center;
   justify-content: center;
   position: relative;
+  margin-top: 11%;
+  margin: 55px auto;
 }
 
 // 룰렛 박스 : 룰렛 이미지 하위 요소들의 부모
 // 이 부분을 바꿔주어야 함
 
-.bottom {
+/* .bottom {
+  top: 0;
   z-index: 1;
+  width: 280px;
+  height: auto;
 }
 
 .items {
   z-index: 10;
-  width: 100%;
+  width: 245px;
   position: absolute;
+  top: 6%;
+  transform-origin: 50% 50%;
+  transition-timing-function: ease-in-out;
+  transform: rotate(-23deg);
+  transition: 3s;
+} */
+
+//아이폰 12pro 기준 값 : width 390px
+
+.bottom {
   top: 0;
-  transform-origin: 50% 51%;
-  /* transform: rotate(-23deg); */
-  transition-timing-function: cubic-bezier(0.8, 0.09, 0.42, 0.76);
+  z-index: 1;
+  /* width: 260px; */
+  height: auto;
+}
+
+.items {
+  z-index: 10;
+  /* width: 228px; */
+  position: absolute;
+  top: 6%;
+  transform-origin: 50% 50%;
+  transition-timing-function: ease-in-out;
+  transform: rotate(-23deg);
   transition: 3s;
 }
+
+//아이폰4 기준 값 : width : 320px
+
+/* .items {
+  z-index: 10;
+  width: 100%;
+  position: absolute;
+  top: 6%;
+  transform-origin: 50% 50%;
+  /* transform: rotate(-23deg); */
+/* transition-timing-function: ease-in-out;
+  transition: 3s; */
+
+// 기존 items style
 
 .pin {
   z-index: 12;
   position: absolute;
-  top: 6%;
+  top: 0%;
   width: 20px;
   transform-origin: 50% 50%;
   transition-timing-function: cubic-bezier(0.8, 0.09, 0.42, 0.76);
@@ -482,9 +580,11 @@ export default {
 }
 
 .start-button {
-  width: 66px;
+  /* width: 96px; */
   position: absolute;
-  top: 35.7%;
+  top: 31.5%;
+  /* left: 38.4%; */
+  /* transform: translateX(-48px); */
   z-index: 2000;
 }
 
@@ -512,6 +612,7 @@ export default {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(10deg);
   }
@@ -520,9 +621,4 @@ export default {
 /* showCard */
 
 // degResult
-
-.bottom,
-.items {
-  width: 30px;
-}
 </style>

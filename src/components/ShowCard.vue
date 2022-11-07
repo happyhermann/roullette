@@ -1,6 +1,6 @@
 <template>
   <v-row class="modalClass" justify="center">
-    <v-dialog v-model="dialog" persistent max-width="250">
+    <v-dialog v-model="dialog" persistent max-width="300">
       <template v-if="false" v-slot:activator="{ on, attrs }">
         <v-btn @click="showUp()" color="primary" dark v-bind="attrs" v-on="on">
           Open Dialog

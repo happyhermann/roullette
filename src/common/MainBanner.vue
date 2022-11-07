@@ -1,20 +1,18 @@
 <template>
   <div class="container">
-    <a @click="openModal()" class="btn js-click-modal">Open Modal</a>
+    <!-- <a @click="openModal()" class="btn js-click-modal">Open Modal</a> -->
     <div class="modal">
-      <div class="body">
-        <article class="ad-img-box">
-          <img
-            class="ad-img"
-            src="https://storage.cobak.co/uploads/1635821281397702_2600bbdbd5.png"
-            alt="배너 이미지"
-          />
-          <!-- 홍보할 컨텐츠 이미지 -->
-        </article>
-      </div>
+      <article class="ad-img-box">
+        <img
+          class="ad-img"
+          src="https://storage.cobak.co/uploads/1635821281397702_2600bbdbd5.png"
+          alt="배너 이미지"
+        />
+        <!-- 홍보할 컨텐츠 이미지 -->
+      </article>
       <div class="footer">
         <span @click="todayClose()" class="btn js-temp-close-modal"
-          >다시보지 않기</span
+          >3일간 보지 않기</span
         >
         <!-- 다시보지 않기 버튼  -->
 
@@ -83,7 +81,8 @@ export default {
     },
     todayClose: function () {
       this.closeModal();
-      this.setCookie("mycookie", "popupEnd", 1);
+      this.setCookie("mycookie", "popupEnd", 7);
+      // 저장될 쿠키명, 쿠키 value값, 기간 (ex 1은 하루, 7은 일주일)
     },
   },
 
@@ -98,11 +97,11 @@ export default {
     var checkCookie = this.getCookie("mycookie");
 
     if (checkCookie == "popupEnd") {
-      console.log(`쿠키가 있네`);
+      console.log(`쿠키 유효기간 O : 배너 안보임`);
       this.closeModal();
       // 쿠키가 있으면 숨김
     } else {
-      console.log(`쿠키가 없네`);
+      console.log(`쿠키가 없음 : 배너 보임`);
       this.openModal();
       // 쿠키가 없으면 오픈
     }
@@ -133,6 +132,8 @@ export default {
 .modal {
   background-color: #fff;
   border-radius: 20px;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
   width: 100%;
   /* height: 100%; */
   margin: 0;
@@ -145,12 +146,6 @@ export default {
   z-index: 100000;
 
   /* body / article 메인 컨텐츠 스타일  */
-  .body {
-    width: 100%;
-    font: 300 16px Lato;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
-  }
 }
 
 article {
@@ -163,7 +158,7 @@ article {
 }
 
 .container.modal-open .modal {
-  top: 65%;
+  top: 40%;
 }
 
 // 닫기 버튼 CSS
@@ -183,7 +178,7 @@ article {
 }
 
 .btn {
-  font-size: 15px;
+  font-size: 13px;
   font-weight: 700;
   display: inline-block;
   color: #000;
