@@ -280,8 +280,7 @@ export default {
         // 반복될 때 마다 회전 회수 더해줌
 
         // items.style.transform = "rotate(" + 360 * num + "deg)";
-        items.style.transform =
-          "rotate(" + 360 * num + (degResult + 30) + "deg)";
+        items.style.transform = "rotate(" + 360 * num + "deg)";
 
         // anim대신 직접 rotate css로 작동
         pin.classList.add("shake");
@@ -291,8 +290,10 @@ export default {
 
         if (num === 50) {
           console.log("50회 끝");
+
           clearInterval(anim);
           // 회전 삭제
+          items.style.transform = "rotate(" + (degResult + 30) + "deg)";
 
           // items.style.transform = "rotate(" + (degResult + 18030) + "deg)";
           // degResult 뒤에 임의 30deg 추가해서 경품 중앙 애매하게 위치하게 세팅
@@ -305,6 +306,12 @@ export default {
         }
       }, 50);
 
+      const pinTimer = setTimeout(() => {
+        pin.classList.remove("shake");
+      }, 4900);
+
+      console.log(pinTimer);
+
       const timer = setTimeout(() => {
         this.matchItems(degResult);
         // items.style.transform = "rotate(" + (degResult + 18030) + "deg)";
@@ -312,7 +319,7 @@ export default {
         btn.disabled = false;
         btn.style.pointerEvents = "auto";
         // 버튼 누를 수 있게 복구
-      }, 5800);
+      }, 5900);
 
       console.log(timer);
     },
@@ -553,24 +560,13 @@ export default {
   position: absolute;
   top: 6%;
   transform-origin: 50% 50%;
-  transition-timing-function: ease-in-out;
   transform: rotate(-23deg);
-  transition: 3s;
+  transition-timing-function: ease-in-out;
+
+  transition: 2s;
 }
 
 //아이폰4 기준 값 : width : 320px
-
-/* .items {
-  z-index: 10;
-  width: 100%;
-  position: absolute;
-  top: 6%;
-  transform-origin: 50% 50%;
-  /* transform: rotate(-23deg); */
-/* transition-timing-function: ease-in-out;
-  transition: 3s; */
-
-// 기존 items style
 
 .pin {
   z-index: 12;
@@ -579,7 +575,7 @@ export default {
   width: 20px;
   transform-origin: 50% 50%;
   transition-timing-function: cubic-bezier(0.8, 0.09, 0.42, 0.76);
-  transition: 0.2s;
+  transition: 2s;
 }
 
 .start-button {
@@ -606,7 +602,7 @@ export default {
 
 .shake {
   animation-name: ani3;
-  animation-duration: 0.1s;
+  animation-duration: 0.2s;
   animation-timing-function: ease-in-out;
   animation-fill-mode: forwards;
   animation-iteration-count: infinite;
