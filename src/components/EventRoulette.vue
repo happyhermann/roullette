@@ -562,7 +562,6 @@ export default {
   transform-origin: 50% 50%;
   transform: rotate(-23deg);
   transition-timing-function: ease-in-out;
-
   transition: 2s;
 }
 
@@ -636,6 +635,16 @@ export default {
 }
 @media (min-width: 370px) and (max-width: 420px) {
   .event-main {
+    height: 80vh;
+  }
+  .token-box {
+    transform: translateY(-80px);
+  }
+}
+/* 아이폰 12 pro 기준 */
+
+@media (min-height: 600px) and (max-height: 700px) {
+  .event-main {
     height: 90vh;
   }
   .token-box {
@@ -643,5 +652,13 @@ export default {
   }
 }
 
-/* 아이폰 12 pro 기준 */
+@media (min-height: 850px) and (max-height: 1000px) {
+  .event-main {
+    height: 75vh;
+  }
+  .token-box {
+    transform: translateY(-80px);
+  }
+}
+/* 갤럭시 S20 Ultra 기준 */
 </style>
