@@ -280,7 +280,8 @@ export default {
         // 반복될 때 마다 회전 회수 더해줌
 
         // items.style.transform = "rotate(" + 360 * num + "deg)";
-        items.style.transform = "rotate(" + 360 * num + "deg)";
+        items.style.transform =
+          "rotate(" + 360 * num + (degResult + 30) + "deg)";
 
         // anim대신 직접 rotate css로 작동
         pin.classList.add("shake");
@@ -293,14 +294,14 @@ export default {
 
           clearInterval(anim);
           // 회전 삭제
-          items.style.transform = "rotate(" + (degResult + 30) + "deg)";
+          items.style.transform = "rotate(" + (degResult + 18030) + "deg)";
 
           // items.style.transform = "rotate(" + (degResult + 18030) + "deg)";
           // degResult 뒤에 임의 30deg 추가해서 경품 중앙 애매하게 위치하게 세팅
 
           console.log(`deg 결과 : ${degResult}`);
 
-          // this.result = deg[this.randomNum()];
+          // this.result = deg[this.randomNum()];s
 
           // 룰렛 matchItems로 결과 값 얻으면 각도 초기화하는 함수 구현
         }
